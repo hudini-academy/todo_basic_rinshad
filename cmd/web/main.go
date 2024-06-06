@@ -3,6 +3,7 @@ package main
 import (
 	"database/sql"
 	"flag"
+	"html/template"
 	"log"
 	"net/http"
 	"os"
@@ -18,11 +19,12 @@ import (
 // web application. For now we'll only include fields for the two custom logger
 // we'll add more to it as the build progresses
 type application struct {
-	errorLog *log.Logger
-	infoLog  *log.Logger
-	session  *sessions.Session
-	todos    *mysql.TodoModel
-	users    *mysql.UserModel
+	errorLog      *log.Logger
+	infoLog       *log.Logger
+	session       *sessions.Session
+	todos         *mysql.TodoModel
+	templateCache map[string]*template.Template
+	users         *mysql.UserModel
 }
 
 func main() {
@@ -56,6 +58,8 @@ func main() {
 		log.Fatal(err)
 	}
 	defer f.Close()
+
+	
 
 	// Use log.New() to create a logger for writing information messages. This
 	// three parameters: the destination to write the logs to (os.Stdout), a st
@@ -91,15 +95,21 @@ func main() {
 	// before the main() function exits.
 	defer db.Close()
 
+	templateCache, err := newTemplateCache("./ui/html/")
+	if err != nil {
+		errorLog.Fatal(err)
+	}
+
 	session := sessions.New([]byte(*secret))
 	session.Lifetime = 12 * time.Hour
 
 	app := &application{
-		errorLog: errorLog,
-		infoLog:  infoLog,
-		session:  session,
-		todos:    &mysql.TodoModel{DB: db},
-		users:    &mysql.UserModel{DB: db},
+		errorLog:      errorLog,
+		infoLog:       infoLog,
+		session:       session,
+		todos:         &mysql.TodoModel{DB: db},
+		templateCache: templateCache,
+		users:         &mysql.UserModel{DB: db},
 	}
 
 	// Initialize a new http.Server struct. We set the Addr and Handler fields

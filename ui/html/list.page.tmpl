@@ -13,7 +13,7 @@
     {{with .Flash}}
       <div class="flash">{{.}}</div>
     {{end}}
-    {{range .Tasks}}
+    {{range .Todos}}
         <li>{{.Name}}
                 <form action="/deleteTask" method="post">
                     <input type="hidden" name="id" value = "{{.ID}}">

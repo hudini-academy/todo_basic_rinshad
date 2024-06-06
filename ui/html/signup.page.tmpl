@@ -3,21 +3,32 @@
 {{define "title"}}Signup{{end}}
 
 {{define "body"}}
-    <form action='/signup' method='POST' novalidate>
+<form action='/signup' method='POST' novalidate>
+    {{with .Form}}
         <div>
-            <label for='name'>Name:</label>
-           <input type='text' id='name' name='name'>
+            <label>Name:</label>
+            {{with .Errors.Get "name"}}
+                <label class='error'>{{.}}</label>
+            {{end}}
+            <input type='text' name='name' value='{{.Get "name"}}'>
         </div>
         <div>
-            <label for='email'>Email:</label>
-           <input type='email' id='email' name='email'>
+            <label>Email:</label>
+            {{with .Errors.Get "email"}}
+                <label class='error'>{{.}}</label>
+            {{end}}
+            <input type='email' name='email' value='{{.Get "email"}}'>
         </div>
         <div>
-            <label for='password'>Password:</label>
-            <input type='password' id='password' name='password'>
+            <label>Password:</label>
+            {{with .Errors.Get "password"}}
+                <label class='error'>{{.}}</label>
+            {{end}}
+            <input type='password' name='password'>
         </div>
         <div>
             <input type='submit' value='Signup'>
         </div>
-    </form>
+    {{end}}
+</form>
 {{end}}

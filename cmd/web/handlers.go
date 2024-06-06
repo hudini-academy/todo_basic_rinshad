@@ -2,12 +2,12 @@ package main
 
 import (
 	"fmt"
-	"html/template"
 	"net/http"
 	"strconv"
 	"strings"
 	"unicode/utf8"
 
+	"github.com/kpmohammedrinshad/alex_web_app/pkg/forms"
 	"github.com/kpmohammedrinshad/alex_web_app/pkg/models"
 )
 
@@ -25,51 +25,64 @@ func (app *application) home(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	// for _, todo := range s {
-	// 	fmt.Println(w, "%v\n", todo)
+	// Use the new render helper.
+	// app.render(w, r, "list.home.tmpl", &templateData{
+	// 	// Pass a new empty forms.Form object to the template.
+	// 	Form: forms.New(nil),
+	// })
+
+	// files := []string{
+	// 	"./ui/html/list.home.tmpl",
+	// 	"./ui/html/base.layout.tmpl",
 	// }
 
-	files := []string{
-		"./ui/html/list.home.tmpl",
-		"./ui/html/base.layout.tmpl",
-	}
+	// // 	// TODO: Improve layout and stying of the templates
 
-	// 	// TODO: Improve layout and stying of the templates
+	// ts, err := template.ParseFiles(files...)
+	// if err != nil {
 
-	ts, err := template.ParseFiles(files...)
-	if err != nil {
+	// 	app.serverError(w, err)
+	// 	http.Error(w, "Internal server Error", 500)
+	// 	return
+	// }
+	flash := app.session.PopString(r, "flash")
 
-		app.serverError(w, err)
-		http.Error(w, "Internal server Error", 500)
-		return
-	}
-	err = ts.Execute(w, struct {
-		Tasks []*models.Todo
-		Flash string
-	}{
-		Tasks: s,
-		Flash: app.session.PopString(r, "flash"),
+	// Pass the flash message to the template.
+	app.render(w, r, "list.page.tmpl", &templateData{
+		Flash: flash,
+		Todos: s,
 	})
-
-	if err != nil {
-		app.serverError(w, err)
-		http.Error(w, "Internal server Error", 500)
-	}
-	// Use the PopString() method to retrieve the value for the "flash" key.
-	// PopString() also deletes the key and value from the session data, so it
-	// acts like a one,time fetch. If there is no matching key in the session
-	// data this will return the empty string.
-
 }
 
 // Change the signature of the home handler so it is defined as a method agains
 // *application
 func (app *application) addTasks(w http.ResponseWriter, r *http.Request) {
 
-	// Add a task to a list and send the list display to the frontend
-	// Create some variables holding data
-	name := r.FormValue("task")
-	expires := "7"
+	// First we call r.ParseForm() which adds any data in POST request bodies
+	// to the r.PostForm map. This also works in the same way for PUT and PATCH
+	// requests. If there are any errors, we use our app.ClientError helper to
+	// a 400 Bad Request response to the user.
+	error := r.ParseForm()
+	if error != nil {
+		app.clientError(w, http.StatusBadRequest)
+		return
+	}
+
+	// Create a new forms.Form struct containing the POSTed data from the
+	// form, then use the validation methods to check the content.
+	form := forms.New(r.PostForm)
+	form.Required("task")
+	form.MaxLength("task", 100)
+	//form.PermittedValues("expires", "365", "7", "1")
+
+	if !form.Valid() {
+		app.render(w, r, "list.page.tmpl", &templateData{Form: form})
+		return
+	}
+	// Use the r.PostForm.Get() method to retrieve the relevant data fields
+	// from the r.PostForm map.
+	name := r.PostForm.Get("task")
+	//expires := "7"
 
 	errors := make(map[string]string)
 
@@ -80,13 +93,15 @@ func (app *application) addTasks(w http.ResponseWriter, r *http.Request) {
 	}
 
 	if len(errors) > 0 {
-		fmt.Fprint(w, errors)
+		app.render(w, r, "list.page.tmpl", &templateData{
+			Form: form,
+		})
 		return
 	}
 
 	// Pass the data to the TodoModel.Insert() method, receiving the
 	// ID of the new record back.
-	_, err := app.todos.Insert(name, expires)
+	_, err := app.todos.Insert(form.Get("task"))
 	if err != nil {
 		app.serverError(w, err)
 		return
@@ -146,37 +161,97 @@ func (app *application) updateTasks(w http.ResponseWriter, r *http.Request) {
 }
 
 func (app *application) signupUserForm(w http.ResponseWriter, r *http.Request) {
-	// Create or initialize your template with ParseFiles or ParseGlob
-	files := []string{
-		"./ui/html/signup.page.tmpl",
-		"./ui/html/base.layout.tmpl",
-	}
-
-	tmpl, err := template.ParseFiles(files...)
+	// Parse the form data.
+	err := r.ParseForm()
 	if err != nil {
-		// Handle error
-		http.Error(w, "Internal Server Error", http.StatusInternalServerError)
+		app.clientError(w, http.StatusBadRequest)
 		return
 	}
-
-	// Execute the template directly without passing any data
-	err = tmpl.Execute(w, nil)
-	if err != nil {
-		// Handle error
-		http.Error(w, "Internal Server Error", http.StatusInternalServerError)
+	// Validate the form contents using the form helper we made earlier.
+	form := forms.New(r.PostForm)
+	form.Required("name", "email", "password")
+	form.MatchesPattern("email", forms.EmailRX)
+	form.MinLength("password", 10)
+	// If there are any errors, redisplay the signup form.
+	if !form.Valid() {
+		app.render(w, r, "signup.page.tmpl", &templateData{Form: form})
 		return
 	}
+	// Otherwise send a placeholder response (for now!).
+	fmt.Fprintln(w, "Create a new user...")
 }
 
 func (app *application) signupUser(w http.ResponseWriter, r *http.Request) {
-	fmt.Fprintln(w, "Create a new user...")
+	// Parse the form data.
+	err := r.ParseForm()
+	if err != nil {
+		app.clientError(w, http.StatusBadRequest)
+		return
+	}
+	// Validate the form contents using the form helper we made earlier.
+	form := forms.New(r.PostForm)
+	form.Required("name", "email", "password")
+	form.MatchesPattern("email", forms.EmailRX)
+	form.MinLength("password", 10)
+	// If there are any errors, redisplay the signup form.
+	if !form.Valid() {
+		app.render(w, r, "signup.page.tmpl", &templateData{Form: form})
+		return
+	}
+	// Try to create a new user record in the database. If the email already exi
+	// add an error message to the form and re,display it.
+	err = app.users.Insert(form.Get("name"), form.Get("email"), form.Get("password"))
+	if err == models.ErrDuplicateEmail {
+		form.Errors.Add("email", "Address is already in use")
+		app.render(w, r, "signup.page.tmpl", &templateData{Form: form})
+		return
+	} else if err != nil {
+		app.serverError(w, err)
+		return
+	}
+	// Otherwise add a confirmation flash message to the session confirming tha
+	// their signup worked and asking them to log in.
+	app.session.Put(r, "flash", "Your signup was successful. Please log in.")
+	// And redirect the user to the login page.
+	http.Redirect(w, r, "/login", http.StatusSeeOther)
 }
+
 func (app *application) loginUserForm(w http.ResponseWriter, r *http.Request) {
-	fmt.Fprintln(w, "Display the user login form...")
+	app.render(w, r, "login.page.tmpl", &templateData{
+		Form: forms.New(nil),
+	})
 }
 func (app *application) loginUser(w http.ResponseWriter, r *http.Request) {
-	fmt.Fprintln(w, "Authenticate and login the user...")
+	err := r.ParseForm()
+	if err != nil {
+		app.clientError(w, http.StatusBadRequest)
+		return
+	}
+	// Check whether the credentials are valid. If they're not, add a generic e
+	// message to the form failures map and re,display the login page.
+	form := forms.New(r.PostForm)
+	id, err := app.users.Authenticate(form.Get("email"), form.Get("password"))
+
+	if err == models.ErrInvalidCredentials {
+		form.Errors.Add("generic", "Email or Password is incorrect")
+		app.render(w, r, "login.page.tmpl", &templateData{Form: form})
+		return
+	} else if err != nil {
+		app.serverError(w, err)
+		return
+	}
+	// Add the ID of the current user to the session, so that they are now 'logg
+	// in'.
+	app.session.Put(r, "userID", id)
+	// Redirect the user to the create snippet page.
+	http.Redirect(w, r, "/", http.StatusSeeOther)
 }
+
 func (app *application) logoutUser(w http.ResponseWriter, r *http.Request) {
-	fmt.Fprintln(w, "Logout the user...")
+	// Remove the userID from the session data so that the user is 'logged out'
+	app.session.Remove(r, "userID")
+	// Add a flash message to the session to confirm to the user that they've be
+	app.session.Put(r, "flash", "You've been logged out successfully!")
+	http.Redirect(w, r, "/", 303)
+
 }

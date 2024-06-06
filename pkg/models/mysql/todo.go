@@ -2,6 +2,7 @@ package mysql
 
 import (
 	"database/sql"
+	"log"
 
 	"github.com/kpmohammedrinshad/alex_web_app/pkg/models"
 )
@@ -12,8 +13,8 @@ type TodoModel struct {
 }
 
 // This will insert a new todo into the database.
-func (t *TodoModel) Insert(name, expires string) (int, error) {
-
+func (t *TodoModel) Insert(name string) (int, error) {
+	log.Println(name)
 	// Write the SQL statement we want to execute. I've split it over two lines
 	// for readability (which is why it's surrounded with backquotes instead
 	// of normal double quotes).
@@ -25,7 +26,7 @@ func (t *TodoModel) Insert(name, expires string) (int, error) {
 	// name and expiry values for the placeholder parameters. This
 	// method returns a sql.Result object, which contains some basic
 	// information about what happened when the statement was executed.
-	result, err := t.DB.Exec(stmt, name, expires)
+	result, err := t.DB.Exec(stmt, name, 7)
 	if err != nil {
 		return 0, err
 	}
