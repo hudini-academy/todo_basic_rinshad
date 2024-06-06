@@ -1,0 +1,32 @@
+{{define "base"}}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <link rel='stylesheet' href='/static/css/main.css'>
+    <title>{{block "title" .}}Default Title{{end}}</title>
+</head>
+<body>
+<nav>
+<div>
+<a href='/'>Home</a>
+</div>
+<div>
+<a href='/signup'>Signup</a>
+<a href='/login'>Login</a>
+<form action='/logout' method='POST'>
+<button>Logout</button>
+</form>
+</div>
+</nav>
+
+    <div class="content">
+         {{block "body" .}}{{end}}
+         <section>
+
+
+    </section>
+    </div>
+</body>
+</html>
+{{end}}

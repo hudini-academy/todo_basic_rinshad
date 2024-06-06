@@ -1,0 +1,175 @@
+ERROR	2024/06/06 10:01:03 helpers.go:13: template: base.layout.tmpl:12:9: executing "base.layout.tmpl" at <.FLash>: can't evaluate field FLash in type struct { Tasks []*models.Todo; Flash string }
+goroutine 18 [running]:
+runtime/debug.Stack()
+	C:/Program Files/Go/src/runtime/debug/stack.go:24 +0x5e
+main.(*application).serverError(0xc000188020, {0x13bc4d0, 0xc0000a00c0}, {0x13ba8c0?, 0xc000094180?})
+	C:/Users/MohammedRinshad/Documents/to_do_list/cmd/web/helpers.go:12 +0x5d
+main.(*application).home(0xc000188020, {0x13bc4d0, 0xc0000a00c0}, 0xc0000a2360)
+	C:/Users/MohammedRinshad/Documents/to_do_list/cmd/web/handlers.go:55 +0x22e
+net/http.HandlerFunc.ServeHTTP(0xc00012c5a0?, {0x13bc4d0?, 0xc0000a00c0?}, 0xfbc5f1?)
+	C:/Program Files/Go/src/net/http/server.go:2166 +0x29
+github.com/golangcollege/sessions.(*Session).Enable-fm.(*Session).Enable.func1({0x13bc620, 0xc0000bc000}, 0xc00012c5a0)
+	C:/Users/MohammedRinshad/go/pkg/mod/github.com/golangcollege/sessions@v1.2.0/session.go:155 +0x14c
+net/http.HandlerFunc.ServeHTTP(0xc00018c0f0?, {0x13bc620?, 0xc0000bc000?}, 0x3?)
+	C:/Program Files/Go/src/net/http/server.go:2166 +0x29
+github.com/bmizerany/pat.(*PatternServeMux).ServeHTTP(0xc000196018, {0x13bc620, 0xc0000bc000}, 0xc00012c5a0)
+	C:/Users/MohammedRinshad/go/pkg/mod/github.com/bmizerany/pat@v0.0.0-20210406213842-e4b6760bdd6f/mux.go:117 +0x191
+main.secureHeaders.func1({0x13bc620, 0xc0000bc000}, 0xc00012c5a0)
+	C:/Users/MohammedRinshad/Documents/to_do_list/cmd/web/middleware.go:13 +0x19b
+net/http.HandlerFunc.ServeHTTP(0xc000098020?, {0x13bc620?, 0xc0000bc000?}, 0xc000033a60?)
+	C:/Program Files/Go/src/net/http/server.go:2166 +0x29
+main.(*application).logRequest-fm.(*application).logRequest.func1({0x13bc620, 0xc0000bc000}, 0xc00012c5a0)
+	C:/Users/MohammedRinshad/Documents/to_do_list/cmd/web/middleware.go:20 +0x150
+net/http.HandlerFunc.ServeHTTP(0x10?, {0x13bc620?, 0xc0000bc000?}, 0xf3e337?)
+	C:/Program Files/Go/src/net/http/server.go:2166 +0x29
+main.(*application).recoverPanic-fm.(*application).recoverPanic.func1({0x13bc620?, 0xc0000bc000?}, 0xf9fcaf?)
+	C:/Users/MohammedRinshad/Documents/to_do_list/cmd/web/middleware.go:66 +0x7c
+net/http.HandlerFunc.ServeHTTP(0xf39139?, {0x13bc620?, 0xc0000bc000?}, 0xc000033b68?)
+	C:/Program Files/Go/src/net/http/server.go:2166 +0x29
+net/http.serverHandler.ServeHTTP({0xc00002b740?}, {0x13bc620?, 0xc0000bc000?}, 0x6?)
+	C:/Program Files/Go/src/net/http/server.go:3137 +0x8e
+net/http.(*conn).serve(0xc00018a090, {0x13bce48, 0xc00018c480})
+	C:/Program Files/Go/src/net/http/server.go:2039 +0x5e8
+created by net/http.(*Server).Serve in goroutine 1
+	C:/Program Files/Go/src/net/http/server.go:3285 +0x4b4
+
+ERROR	2024/06/06 10:03:39 helpers.go:13: template: base.layout.tmpl:12:28: executing "base.layout.tmpl" at <.Flash>: can't evaluate field Flash in type string
+goroutine 21 [running]:
+runtime/debug.Stack()
+	C:/Program Files/Go/src/runtime/debug/stack.go:24 +0x5e
+main.(*application).serverError(0xc0000966c0, {0x6ec4d0, 0xc00009f240}, {0x6ea8c0?, 0xc000096c20?})
+	C:/Users/MohammedRinshad/Documents/to_do_list/cmd/web/helpers.go:12 +0x5d
+main.(*application).home(0xc0000966c0, {0x6ec4d0, 0xc00009f240}, 0xc0000e6900)
+	C:/Users/MohammedRinshad/Documents/to_do_list/cmd/web/handlers.go:55 +0x22e
+net/http.HandlerFunc.ServeHTTP(0xc0000e65a0?, {0x6ec4d0?, 0xc00009f240?}, 0x2ec5f1?)
+	C:/Program Files/Go/src/net/http/server.go:2166 +0x29
+github.com/golangcollege/sessions.(*Session).Enable-fm.(*Session).Enable.func1({0x6ec620, 0xc000124000}, 0xc0000e65a0)
+	C:/Users/MohammedRinshad/go/pkg/mod/github.com/golangcollege/sessions@v1.2.0/session.go:155 +0x14c
+net/http.HandlerFunc.ServeHTTP(0xc0000897d0?, {0x6ec620?, 0xc000124000?}, 0x3?)
+	C:/Program Files/Go/src/net/http/server.go:2166 +0x29
+github.com/bmizerany/pat.(*PatternServeMux).ServeHTTP(0xc000094378, {0x6ec620, 0xc000124000}, 0xc0000e65a0)
+	C:/Users/MohammedRinshad/go/pkg/mod/github.com/bmizerany/pat@v0.0.0-20210406213842-e4b6760bdd6f/mux.go:117 +0x191
+main.secureHeaders.func1({0x6ec620, 0xc000124000}, 0xc0000e65a0)
+	C:/Users/MohammedRinshad/Documents/to_do_list/cmd/web/middleware.go:13 +0x19b
+net/http.HandlerFunc.ServeHTTP(0xc00009c390?, {0x6ec620?, 0xc000124000?}, 0xc000033a60?)
+	C:/Program Files/Go/src/net/http/server.go:2166 +0x29
+main.(*application).logRequest-fm.(*application).logRequest.func1({0x6ec620, 0xc000124000}, 0xc0000e65a0)
+	C:/Users/MohammedRinshad/Documents/to_do_list/cmd/web/middleware.go:20 +0x150
+net/http.HandlerFunc.ServeHTTP(0x10?, {0x6ec620?, 0xc000124000?}, 0x26e337?)
+	C:/Program Files/Go/src/net/http/server.go:2166 +0x29
+main.(*application).recoverPanic-fm.(*application).recoverPanic.func1({0x6ec620?, 0xc000124000?}, 0x2cfcaf?)
+	C:/Users/MohammedRinshad/Documents/to_do_list/cmd/web/middleware.go:66 +0x7c
+net/http.HandlerFunc.ServeHTTP(0x269139?, {0x6ec620?, 0xc000124000?}, 0xc000033b68?)
+	C:/Program Files/Go/src/net/http/server.go:2166 +0x29
+net/http.serverHandler.ServeHTTP({0xc00002a060?}, {0x6ec620?, 0xc000124000?}, 0x6?)
+	C:/Program Files/Go/src/net/http/server.go:3137 +0x8e
+net/http.(*conn).serve(0xc00010e090, {0x6ece48, 0xc000089b60})
+	C:/Program Files/Go/src/net/http/server.go:2039 +0x5e8
+created by net/http.(*Server).Serve in goroutine 1
+	C:/Program Files/Go/src/net/http/server.go:3285 +0x4b4
+
+ERROR	2024/06/06 10:09:41 helpers.go:13: html/template:base.layout.tmpl: "\"" in attribute name: "\"red\" }>"
+goroutine 34 [running]:
+runtime/debug.Stack()
+	C:/Program Files/Go/src/runtime/debug/stack.go:24 +0x5e
+main.(*application).serverError(0xc00018a020, {0x9bc4d0, 0xc00008ba40}, {0x9b9f80?, 0xc000039280?})
+	C:/Users/MohammedRinshad/Documents/to_do_list/cmd/web/helpers.go:12 +0x5d
+main.(*application).home(0xc00018a020, {0x9bc4d0, 0xc00008ba40}, 0xc0000a1d40)
+	C:/Users/MohammedRinshad/Documents/to_do_list/cmd/web/handlers.go:55 +0x22e
+net/http.HandlerFunc.ServeHTTP(0xc0000a1b00?, {0x9bc4d0?, 0xc00008ba40?}, 0x5bc5f1?)
+	C:/Program Files/Go/src/net/http/server.go:2166 +0x29
+github.com/golangcollege/sessions.(*Session).Enable-fm.(*Session).Enable.func1({0x9bc620, 0xc0000ee0e0}, 0xc0000a1b00)
+	C:/Users/MohammedRinshad/go/pkg/mod/github.com/golangcollege/sessions@v1.2.0/session.go:155 +0x14c
+net/http.HandlerFunc.ServeHTTP(0xc00018e0f0?, {0x9bc620?, 0xc0000ee0e0?}, 0x3?)
+	C:/Program Files/Go/src/net/http/server.go:2166 +0x29
+github.com/bmizerany/pat.(*PatternServeMux).ServeHTTP(0xc000198018, {0x9bc620, 0xc0000ee0e0}, 0xc0000a1b00)
+	C:/Users/MohammedRinshad/go/pkg/mod/github.com/bmizerany/pat@v0.0.0-20210406213842-e4b6760bdd6f/mux.go:117 +0x191
+main.secureHeaders.func1({0x9bc620, 0xc0000ee0e0}, 0xc0000a1b00)
+	C:/Users/MohammedRinshad/Documents/to_do_list/cmd/web/middleware.go:13 +0x19b
+net/http.HandlerFunc.ServeHTTP(0xc000096660?, {0x9bc620?, 0xc0000ee0e0?}, 0xc000033a60?)
+	C:/Program Files/Go/src/net/http/server.go:2166 +0x29
+main.(*application).logRequest-fm.(*application).logRequest.func1({0x9bc620, 0xc0000ee0e0}, 0xc0000a1b00)
+	C:/Users/MohammedRinshad/Documents/to_do_list/cmd/web/middleware.go:20 +0x150
+net/http.HandlerFunc.ServeHTTP(0x10?, {0x9bc620?, 0xc0000ee0e0?}, 0x53e337?)
+	C:/Program Files/Go/src/net/http/server.go:2166 +0x29
+main.(*application).recoverPanic-fm.(*application).recoverPanic.func1({0x9bc620?, 0xc0000ee0e0?}, 0x59fcaf?)
+	C:/Users/MohammedRinshad/Documents/to_do_list/cmd/web/middleware.go:66 +0x7c
+net/http.HandlerFunc.ServeHTTP(0x539139?, {0x9bc620?, 0xc0000ee0e0?}, 0xc000033b68?)
+	C:/Program Files/Go/src/net/http/server.go:2166 +0x29
+net/http.serverHandler.ServeHTTP({0xc00018e570?}, {0x9bc620?, 0xc0000ee0e0?}, 0x6?)
+	C:/Program Files/Go/src/net/http/server.go:3137 +0x8e
+net/http.(*conn).serve(0xc00018c090, {0x9bce48, 0xc00018e480})
+	C:/Program Files/Go/src/net/http/server.go:2039 +0x5e8
+created by net/http.(*Server).Serve in goroutine 1
+	C:/Program Files/Go/src/net/http/server.go:3285 +0x4b4
+
+ERROR	2024/06/06 10:10:40 helpers.go:13: html/template:base.layout.tmpl: "\"" in attribute name: "\"color: red; \">"
+goroutine 20 [running]:
+runtime/debug.Stack()
+	C:/Program Files/Go/src/runtime/debug/stack.go:24 +0x5e
+main.(*application).serverError(0xc00008c2c0, {0xd0c4d0, 0xc0001904c0}, {0xd09f80?, 0xc000190cc0?})
+	C:/Users/MohammedRinshad/Documents/to_do_list/cmd/web/helpers.go:12 +0x5d
+main.(*application).home(0xc00008c2c0, {0xd0c4d0, 0xc0001904c0}, 0xc0001925a0)
+	C:/Users/MohammedRinshad/Documents/to_do_list/cmd/web/handlers.go:55 +0x22e
+net/http.HandlerFunc.ServeHTTP(0xc000192000?, {0xd0c4d0?, 0xc0001904c0?}, 0x90c5f1?)
+	C:/Program Files/Go/src/net/http/server.go:2166 +0x29
+github.com/golangcollege/sessions.(*Session).Enable-fm.(*Session).Enable.func1({0xd0c620, 0xc0001ae000}, 0xc000192000)
+	C:/Users/MohammedRinshad/go/pkg/mod/github.com/golangcollege/sessions@v1.2.0/session.go:155 +0x14c
+net/http.HandlerFunc.ServeHTTP(0xc000094c30?, {0xd0c620?, 0xc0001ae000?}, 0x3?)
+	C:/Program Files/Go/src/net/http/server.go:2166 +0x29
+github.com/bmizerany/pat.(*PatternServeMux).ServeHTTP(0xc0000ba090, {0xd0c620, 0xc0001ae000}, 0xc000192000)
+	C:/Users/MohammedRinshad/go/pkg/mod/github.com/bmizerany/pat@v0.0.0-20210406213842-e4b6760bdd6f/mux.go:117 +0x191
+main.secureHeaders.func1({0xd0c620, 0xc0001ae000}, 0xc000192000)
+	C:/Users/MohammedRinshad/Documents/to_do_list/cmd/web/middleware.go:13 +0x19b
+net/http.HandlerFunc.ServeHTTP(0xc000180020?, {0xd0c620?, 0xc0001ae000?}, 0xc000033a60?)
+	C:/Program Files/Go/src/net/http/server.go:2166 +0x29
+main.(*application).logRequest-fm.(*application).logRequest.func1({0xd0c620, 0xc0001ae000}, 0xc000192000)
+	C:/Users/MohammedRinshad/Documents/to_do_list/cmd/web/middleware.go:20 +0x150
+net/http.HandlerFunc.ServeHTTP(0x10?, {0xd0c620?, 0xc0001ae000?}, 0x88e337?)
+	C:/Program Files/Go/src/net/http/server.go:2166 +0x29
+main.(*application).recoverPanic-fm.(*application).recoverPanic.func1({0xd0c620?, 0xc0001ae000?}, 0x8efcaf?)
+	C:/Users/MohammedRinshad/Documents/to_do_list/cmd/web/middleware.go:66 +0x7c
+net/http.HandlerFunc.ServeHTTP(0x889139?, {0xd0c620?, 0xc0001ae000?}, 0xc000033b68?)
+	C:/Program Files/Go/src/net/http/server.go:2166 +0x29
+net/http.serverHandler.ServeHTTP({0xc000182030?}, {0xd0c620?, 0xc0001ae000?}, 0x6?)
+	C:/Program Files/Go/src/net/http/server.go:3137 +0x8e
+net/http.(*conn).serve(0xc0000d4090, {0xd0ce48, 0xc000094fc0})
+	C:/Program Files/Go/src/net/http/server.go:2039 +0x5e8
+created by net/http.(*Server).Serve in goroutine 1
+	C:/Program Files/Go/src/net/http/server.go:3285 +0x4b4
+
+ERROR	2024/06/06 10:10:50 helpers.go:13: html/template:base.layout.tmpl: "\"" in attribute name: "\"color: red; \">"
+goroutine 20 [running]:
+runtime/debug.Stack()
+	C:/Program Files/Go/src/runtime/debug/stack.go:24 +0x5e
+main.(*application).serverError(0xc00008c2c0, {0xd0c4d0, 0xc000092600}, {0xd09f80?, 0xc000092e00?})
+	C:/Users/MohammedRinshad/Documents/to_do_list/cmd/web/helpers.go:12 +0x5d
+main.(*application).home(0xc00008c2c0, {0xd0c4d0, 0xc000092600}, 0xc0000c47e0)
+	C:/Users/MohammedRinshad/Documents/to_do_list/cmd/web/handlers.go:55 +0x22e
+net/http.HandlerFunc.ServeHTTP(0xc0000c45a0?, {0xd0c4d0?, 0xc000092600?}, 0x90c5f1?)
+	C:/Program Files/Go/src/net/http/server.go:2166 +0x29
+github.com/golangcollege/sessions.(*Session).Enable-fm.(*Session).Enable.func1({0xd0c620, 0xc0000f4000}, 0xc0000c45a0)
+	C:/Users/MohammedRinshad/go/pkg/mod/github.com/golangcollege/sessions@v1.2.0/session.go:155 +0x14c
+net/http.HandlerFunc.ServeHTTP(0xc000094c30?, {0xd0c620?, 0xc0000f4000?}, 0x3?)
+	C:/Program Files/Go/src/net/http/server.go:2166 +0x29
+github.com/bmizerany/pat.(*PatternServeMux).ServeHTTP(0xc0000ba090, {0xd0c620, 0xc0000f4000}, 0xc0000c45a0)
+	C:/Users/MohammedRinshad/go/pkg/mod/github.com/bmizerany/pat@v0.0.0-20210406213842-e4b6760bdd6f/mux.go:117 +0x191
+main.secureHeaders.func1({0xd0c620, 0xc0000f4000}, 0xc0000c45a0)
+	C:/Users/MohammedRinshad/Documents/to_do_list/cmd/web/middleware.go:13 +0x19b
+net/http.HandlerFunc.ServeHTTP(0xc00008e250?, {0xd0c620?, 0xc0000f4000?}, 0xc000033a60?)
+	C:/Program Files/Go/src/net/http/server.go:2166 +0x29
+main.(*application).logRequest-fm.(*application).logRequest.func1({0xd0c620, 0xc0000f4000}, 0xc0000c45a0)
+	C:/Users/MohammedRinshad/Documents/to_do_list/cmd/web/middleware.go:20 +0x150
+net/http.HandlerFunc.ServeHTTP(0x10?, {0xd0c620?, 0xc0000f4000?}, 0x88e337?)
+	C:/Program Files/Go/src/net/http/server.go:2166 +0x29
+main.(*application).recoverPanic-fm.(*application).recoverPanic.func1({0xd0c620?, 0xc0000f4000?}, 0x8efcaf?)
+	C:/Users/MohammedRinshad/Documents/to_do_list/cmd/web/middleware.go:66 +0x7c
+net/http.HandlerFunc.ServeHTTP(0x889139?, {0xd0c620?, 0xc0000f4000?}, 0xc000033b68?)
+	C:/Program Files/Go/src/net/http/server.go:2166 +0x29
+net/http.serverHandler.ServeHTTP({0xc000182030?}, {0xd0c620?, 0xc0000f4000?}, 0x6?)
+	C:/Program Files/Go/src/net/http/server.go:3137 +0x8e
+net/http.(*conn).serve(0xc0000d4090, {0xd0ce48, 0xc000094fc0})
+	C:/Program Files/Go/src/net/http/server.go:2039 +0x5e8
+created by net/http.(*Server).Serve in goroutine 1
+	C:/Program Files/Go/src/net/http/server.go:3285 +0x4b4
+

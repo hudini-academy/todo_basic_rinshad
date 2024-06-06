@@ -1,0 +1,153 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+ 
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f4f4f9;
+    color: #333;
+    line-height: 1.6;
+    padding: 20px;
+}
+ 
+header {
+    background: #333;
+    color: #fff;
+    padding: 10px 0;
+    text-align: center;
+    border-radius: 5px;
+}
+ 
+header h1 {
+    margin: 0;
+    font-size: 2em;
+}
+ 
+.content {
+    margin: 20px auto;
+    max-width: 600px;
+    background: #fff;
+    padding: 20px;
+    border-radius: 5px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+ 
+h2 {
+    border-bottom: 2px solid #333;
+    padding-bottom: 10px;
+    margin-bottom: 20px;
+    font-size: 1.5em;
+}
+ 
+form {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 20px;
+}
+ 
+form input[type="text"] {
+    width: 75%;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    font-size: 1em;
+}
+ 
+form input[type="submit"] {
+    width: 20%;
+    padding: 10px;
+    background: #333;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    font-size: 1em;
+    cursor: pointer;
+}
+ 
+form input[type="submit"]:hover {
+    background: #555;
+}
+ 
+ul {
+    list-style-type: none;
+    padding: 0;
+}
+ 
+ul li {
+    background: #f9f9f9;
+    padding: 10px;
+    margin-bottom: 10px;
+    border-radius: 5px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+ 
+ul li form {
+    margin: 0;
+}
+ 
+ul li form input[type="submit"] {
+    background: #e74c3c;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    padding: 5px 10px;
+    cursor: pointer;
+}
+ 
+ul li form input[type="submit"]:hover {
+    background: #c0392b;
+}
+ 
+footer {
+    text-align: center;
+    margin-top: 20px;
+    font-size: 0.9em;
+    color: #777;
+}
+
+.flash {
+    background-color: green;
+    color: black;
+    padding: 10px;
+    border: 1px solid black; 
+}
+
+nav {
+    background-color: #333; /* Background color for the nav */
+    padding: 10px 0; /* Padding to give some space inside the nav */
+}
+
+nav div {
+    display: inline-block; /* Display div elements inline */
+    margin-right: 20px; /* Margin between div elements */
+}
+
+nav a {
+    color: white; /* Link text color */
+    text-decoration: none; /* Remove underline from links */
+    margin-right: 10px; /* Margin between links */
+}
+
+nav a:hover {
+    text-decoration: underline; /* Underline links on hover */
+}
+
+nav form {
+    display: inline-block; /* Display form inline */
+}
+
+nav button {
+    background-color: #dc3545; /* Button background color */
+    color: white; /* Button text color */
+    border: none; /* Remove button border */
+    padding: 5px 10px; /* Padding inside the button */
+    cursor: pointer; /* Change cursor to pointer on hover */
+}
+
+nav button:hover {
+    background-color: #c82333; /* Darken button background color on hover */
+}
