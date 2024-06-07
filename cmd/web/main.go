@@ -23,6 +23,7 @@ type application struct {
 	infoLog       *log.Logger
 	session       *sessions.Session
 	todos         *mysql.TodoModel
+	specials      *mysql.SpecialModel
 	templateCache map[string]*template.Template
 	users         *mysql.UserModel
 }
@@ -58,8 +59,6 @@ func main() {
 		log.Fatal(err)
 	}
 	defer f.Close()
-
-	
 
 	// Use log.New() to create a logger for writing information messages. This
 	// three parameters: the destination to write the logs to (os.Stdout), a st
@@ -108,6 +107,7 @@ func main() {
 		infoLog:       infoLog,
 		session:       session,
 		todos:         &mysql.TodoModel{DB: db},
+		specials:      &mysql.SpecialModel{DB: db}, // new specials
 		templateCache: templateCache,
 		users:         &mysql.UserModel{DB: db},
 	}

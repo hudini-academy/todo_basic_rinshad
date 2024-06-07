@@ -69,6 +69,6 @@ func (t *UserModel) Authenticate(email, password string) (int, error) {
 
 // We'll use the Get method to fetch details for a specific user based
 // on their user ID.
-func (m *UserModel) Get(id int) (*models.User, error) {
+func (t *UserModel) Get(id int) (*models.User, error) {
 	return nil, nil
 }

@@ -24,7 +24,9 @@ func (app *application) routes() http.Handler {
 	mux.Post("/deleteTask", dynamicMiddleware.ThenFunc(app.deleteTasks))
 	mux.Post("/updateTask", dynamicMiddleware.ThenFunc(app.updateTasks))
 
-	// Add the five new routes.
+	// Add the new two routes for specialTask and SpecialDeleteTask
+	mux.Get("/specialTask", dynamicMiddleware.ThenFunc(app.specialTask))
+	mux.Post("/specialDeleteTask", dynamicMiddleware.ThenFunc(app.specialDeleteTask))
 	mux.Get("/signup", dynamicMiddleware.ThenFunc(app.signupUserForm))
 	mux.Post("/signup", dynamicMiddleware.ThenFunc(app.signupUser))
 	mux.Get("/login", dynamicMiddleware.ThenFunc(app.loginUserForm))

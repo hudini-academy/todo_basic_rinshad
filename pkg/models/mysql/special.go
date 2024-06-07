@@ -6,25 +6,22 @@ import (
 	"github.com/kpmohammedrinshad/alex_web_app/pkg/models"
 )
 
-// Define a TodoModel type which wraps a sql.DB connection pool.
-type TodoModel struct {
+type SpecialModel struct {
 	DB *sql.DB
 }
 
-// This will insert a new todo into the database.
-func (t *TodoModel) Insert(name string) (int, error) {
-	// Write the SQL statement we want to execute. I've split it over two lines
-	// for readability (which is why it's surrounded with backquotes instead
-	// of normal double quotes).
-	stmt := `INSERT INTO todos(name,created,expires)
-	values(?,UTC_TIMESTAMP(),DATE_ADD(UTC_TIMESTAMP(),INTERVAL ? DAY))`
-
-	// Use the Exec() method on the embedded connection pool to execute the
-	// statement. The first parameter is the SQL statement, followed by the
-	// name and expiry values for the placeholder parameters. This
-	// method returns a sql.Result object, which contains some basic
-	// information about what happened when the statement was executed.
-	result, err := t.DB.Exec(stmt, name, 7)
+// We'll use the Insert method to add a new record to the users table.
+func (t *SpecialModel) InsertSpecialTask(name string) (int, error) {
+	stmt := `INSERT INTO specialTask (name)
+VALUES(?)`
+	// Use the Exec() method to insert the user details and hashed password
+	// into the users table. If this returns an error, we try to type assert
+	// it to a *mysql.MySQLError object so we can check if the error number is
+	// 1062 and, if it is, we also check whether or not the error relates to
+	// our users_uc_email key by checking the contents of the message string.
+	// If it does, we return an ErrDuplicateEmail error. Otherwise, we just
+	// return the original error (or nil if everything worked).
+	result, err := t.DB.Exec(stmt, name)
 	if err != nil {
 		return 0, err
 	}
@@ -41,11 +38,10 @@ func (t *TodoModel) Insert(name string) (int, error) {
 	return int(id), nil
 }
 
-func (t *TodoModel) Latest() ([]*models.Todo, error) {
+func (t *SpecialModel) LatestSpecialTask() ([]*models.SpecialTask, error) {
 
 	// Write the SQL statement we want to execute.
-	stmt := `SELECT id, name, created, expires FROM todos
-	WHERE expires > UTC_TIMESTAMP()`
+	stmt := `SELECT id, name FROM specialTask`
 
 	// Use the Query() method on the connection pool to execute our
 	// SQL statement. This returns a sql.Rows resultset containing the result of
@@ -63,7 +59,7 @@ func (t *TodoModel) Latest() ([]*models.Todo, error) {
 	defer rows.Close()
 
 	// Initialize an empty slice to hold the models.Todo objects.
-	todos := []*models.Todo{}
+	specials := []*models.SpecialTask{}
 
 	// Use rows.Next to iterate through the rows in the resultset. This
 	// prepares the first (and then each subsequent) row to be acted on by the
@@ -73,20 +69,20 @@ func (t *TodoModel) Latest() ([]*models.Todo, error) {
 	for rows.Next() {
 
 		// Create a pointer to a new zeroed Todo struct.
-		s := &models.Todo{}
+		s := &models.SpecialTask{}
 
 		// Use rows.Scan() to copy the values from each field in the row to the
 		// new todo object that we created. Again, the arguments to row.Scan
 		// must be pointers to the place you want to copy the data into, and the
 		// number of arguments must be exactly the same as the number of
 		// columns returned by your statement.
-		err = rows.Scan(&s.ID, &s.Name, &s.Created, &s.Expires)
+		err = rows.Scan(&s.ID, &s.Name)
 		if err != nil {
 			return nil, err
 		}
 
 		// Append it to the slice of todos.
-		todos = append(todos, s)
+		specials = append(specials, s)
 	}
 
 	// When the rows.Next() loop has finished we call rows.Err() to retrieve any
@@ -98,13 +94,13 @@ func (t *TodoModel) Latest() ([]*models.Todo, error) {
 	}
 
 	// If everything went OK then return the todos slice.
-	return todos, nil
+	return specials, nil
 }
 
-func (t *TodoModel) Delete(id int) error {
+func (t *SpecialModel) DeleteSpecialTask(id int) error {
 
 	// Write the SQL statement we want to execute.
-	stmt := `DELETE FROM todos WHERE id=?`
+	stmt := `DELETE FROM specialTask WHERE id=?`
 
 	// Use the Exec() method on the embedded connection pool to execute the
 	// statement. The first parameter is the SQL statement, followed by the
@@ -112,25 +108,6 @@ func (t *TodoModel) Delete(id int) error {
 	// method returns a sql.Result object, which contains some basic
 	// information about what happened when the statement was executed.
 	_, err := t.DB.Exec(stmt, id)
-	if err != nil {
-		return err
-	}
-	return nil
-}
-
-func (t *TodoModel) Update(id int, name string) error {
-
-	// Write the SQL statement we want to execute.
-	stmt := `UPDATE todos
-	SET name=?
-	WHERE id=?`
-
-	// Use the Exec() method on the embedded connection pool to execute the
-	// statement. The first parameter is the SQL statement, followed by the
-	// name and id  values for the placeholder parameters. This
-	// method returns a sql.Result object, which contains some basic
-	// information about what happened when the statement was executed.
-	_, err := t.DB.Exec(stmt, name, id)
 	if err != nil {
 		return err
 	}

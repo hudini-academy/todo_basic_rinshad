@@ -22,28 +22,6 @@ func (app *application) logRequest(next http.Handler) http.Handler {
 
 }
 
-// func (app *application) logResponse(next http.Handler) http.Handler {
-// 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-
-// 		rw := &responseWriter{ResponseWriter: w, body: bytes.NewBuffer(nil)}
-
-// 		next.ServeHTTP(rw, r)
-
-// 		fmt.Println(rw.body.String())
-// 	})
-
-// }
-
-// type responseWriter struct {
-// 	http.ResponseWriter
-// 	body *bytes.Buffer
-// }
-
-// func (rw *responseWriter) Write(b []byte) (int, error) {
-// 	rw.body.Write(b)
-// 	return rw.ResponseWriter.Write(b)
-// }
-
 func (app *application) recoverPanic(next http.Handler) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 

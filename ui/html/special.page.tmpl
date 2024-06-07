@@ -1,0 +1,22 @@
+{{template "base" .}}
+ 
+{{define "title"}}Home{{end}}
+ 
+{{define "body"}}
+    <h2> Todo List </h2>
+
+    <ol>
+    {{with .Flash}}
+      <div class="flash">{{.}}</div>
+    {{end}}
+    {{range .Specials}}
+        <li>{{.Name}}
+                <form action="/specialDeleteTask" method="post">
+                    <input type="hidden" name="id" value = "{{.ID}}">
+                    <input type="submit" value="delete"/>
+                </form>
+       </li>
+    {{end}}
+    </ol>
+{{end}}
+ 

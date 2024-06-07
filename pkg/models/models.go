@@ -29,3 +29,8 @@ type User struct {
 	HashedPassword []byte
 	Created        time.Time
 }
+
+type SpecialTask struct {
+	ID   int
+	Name string
+}

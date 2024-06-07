@@ -25,26 +25,6 @@ func (app *application) home(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	// Use the new render helper.
-	// app.render(w, r, "list.home.tmpl", &templateData{
-	// 	// Pass a new empty forms.Form object to the template.
-	// 	Form: forms.New(nil),
-	// })
-
-	// files := []string{
-	// 	"./ui/html/list.home.tmpl",
-	// 	"./ui/html/base.layout.tmpl",
-	// }
-
-	// // 	// TODO: Improve layout and stying of the templates
-
-	// ts, err := template.ParseFiles(files...)
-	// if err != nil {
-
-	// 	app.serverError(w, err)
-	// 	http.Error(w, "Internal server Error", 500)
-	// 	return
-	// }
 	flash := app.session.PopString(r, "flash")
 
 	// Pass the flash message to the template.
@@ -84,6 +64,27 @@ func (app *application) addTasks(w http.ResponseWriter, r *http.Request) {
 	name := r.PostForm.Get("task")
 	//expires := "7"
 
+	isSpecial := strings.Contains(name, "Special:")
+
+	if isSpecial == true {
+		_, err := app.todos.Insert(form.Get("task"))
+		if err != nil {
+			app.serverError(w, err)
+			return
+		}
+		_, err = app.specials.InsertSpecialTask(form.Get("task"))
+		if err != nil {
+			app.serverError(w, err)
+			return
+		}
+	} else {
+		_, err := app.todos.Insert(form.Get("task"))
+		if err != nil {
+			app.serverError(w, err)
+			return
+		}
+	}
+
 	errors := make(map[string]string)
 
 	if strings.TrimSpace(name) == "" {
@@ -101,11 +102,6 @@ func (app *application) addTasks(w http.ResponseWriter, r *http.Request) {
 
 	// Pass the data to the TodoModel.Insert() method, receiving the
 	// ID of the new record back.
-	_, err := app.todos.Insert(form.Get("task"))
-	if err != nil {
-		app.serverError(w, err)
-		return
-	}
 	// Use the Put() method to add a string value ("Your snippet was saved
 	// successfully!") and the corresponding key ("flash") to the session
 	// data. Note that if there's no existing session for the current user
@@ -133,6 +129,7 @@ func (app *application) deleteTasks(w http.ResponseWriter, r *http.Request) {
 	// Optional: Send a redirect to home
 	http.Redirect(w, r, "/", http.StatusSeeOther)
 }
+
 func (app *application) updateTasks(w http.ResponseWriter, r *http.Request) {
 	id, _ := strconv.Atoi(r.FormValue("id"))
 	name := r.FormValue("update")
@@ -254,4 +251,36 @@ func (app *application) logoutUser(w http.ResponseWriter, r *http.Request) {
 	app.session.Put(r, "flash", "You've been logged out successfully!")
 	http.Redirect(w, r, "/", 303)
 
+}
+
+// create a function that show a special task
+func (app *application) specialTask(w http.ResponseWriter, r *http.Request) {
+
+	s, err := app.specials.LatestSpecialTask()
+	if err != nil {
+		app.serverError(w, err)
+		return
+	}
+	// Pass the flash message to the template.
+	flash := app.session.PopString(r, "flash")
+
+	app.render(w, r, "special.page.tmpl", &templateData{
+		Flash:    flash,
+		Specials: s,
+	})
+}
+
+func (app *application) specialDeleteTask(w http.ResponseWriter, r *http.Request) {
+
+	id, _ := strconv.Atoi(r.FormValue("id"))
+
+	err := app.specials.DeleteSpecialTask(id)
+	if err != nil {
+		app.serverError(w, err)
+		return
+	}
+	app.session.Put(r, "flash", "todo deleted successfully created!")
+
+	// Optional: Send a redirect to home
+	http.Redirect(w, r, "/", http.StatusSeeOther)
 }

@@ -18,6 +18,7 @@ type templateData struct {
 	Form              *forms.Form
 	Todo              *models.Todo
 	Todos             []*models.Todo
+	Specials          []*models.SpecialTask // new specials
 }
 
 func newTemplateCache(dir string) (map[string]*template.Template, error) {
@@ -32,7 +33,7 @@ func newTemplateCache(dir string) (map[string]*template.Template, error) {
 	}
 	// Loop through the pages one,by,one.
 	for _, page := range pages {
-		// Extract the file name (like 'home.page.tmpl') from the full file pat
+		// Extract the file name (like 'home.page.tmpl') from the full file path
 		// and assign it to the name variable.
 		name := filepath.Base(page)
 		// Parse the page template file in to a template set.
